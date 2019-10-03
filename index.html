@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <!-- Local style sheets -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- Import google fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Arvo&display=swap" rel="stylesheet" />
+
+  <title>VM 16bits</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="../img/favicon.ico" type="image/png" />
+
+</head>
+
+<body>
+  <nav class="navbar">Simulador Maquina Virtual 16bits</nav>
+  <div class="wrapper">
+    <div id="memory-slots">
+      <div class="slots" style="height: 20px;">
+        <span class="memory-slots-title">endereço</span><span class="memory-slots-title">mnemônico</span><span
+          class="memory-slots-title">assembly</span>
+      </div>
+    </div>
+    <div>
+      <div id="game-instructions"></div>
+      <button id="expertMode" onclick="handleUserLevel()">Expert</button>
+      <button id="easyMode" class="hide" onclick="handleUserLevel()">Easy</button>
+      <button onclick="levelTwo()">play</button>
+      <div class="register-title">REGISTER</div>
+      <div class="registers box hide">
+        <div class="registers-line">
+          <label for="ic">IC</label>
+          <input type="text" id="ic" class="register-input" name="ic" size="10" readonly />
+          <label for="ra">RA</label>
+          <input type="text" id="ra" class="register-input" name="ra" size="10" readonly />
+        </div>
+        <div class="registers-line">
+          <label for="mar">MAR</label>
+          <input type="text" id="mar" class="register-input" name="mar" size="10" readonly />
+          <label for="mdr">MDR</label>
+          <input type="text" id="mdr" class="register-input" name="mdr" size="10" readonly />
+        </div>
+        <div class="registers-line">
+          <label for="ir">IR</label>
+          <input type="text" id="ir" class="register-input" name="ir" size="10" readonly />
+        </div>
+        <div class="registers-line">
+          <label for="op">OP</label>
+          <input type="text" id="op" class="register-input" name="op" size="10" readonly />
+          <label for="oi">OI</label>
+          <input type="text" id="oi" class="register-input" name="oi" size="10" readonly />
+        </div>
+        <div class="registers-line">
+          <label for="ac">AC</label>
+          <input type="text" id="ac" class="register-input" name="ac" size="10" readonly />
+        </div>
+      </div>
+      <div class="learn-registers box">
+        <ul id="learn-register-items">
+
+        </ul>
+      </div>
+      <div class="btns">
+        <button id="reset" onclick="resetProgram()">RESET</button>
+        <button id="debugger" onclick="runDebugger()">DEBUG</button>
+        <button id="run" onclick="runAssembly()">RUN</button>
+      </div>
+    </div>
+    <div class="instructions-100vh">
+      <div class="commands">
+        <div class="line">
+          <span class="assembly-operation">Instrução</span>
+          <span class="mnemonic">Mnemônico</span>
+          <span class="description">Descrição</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">0</span>
+          <span class="mnemonic">JMP</span>
+          <span class="description">Desvio incondicional</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">1</span>
+          <span class="mnemonic">JZ</span>
+          <span class="description">Desvio se acumulador for zero</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">2</span>
+          <span class="mnemonic">JNZ</span>
+          <span class="description">Desvio se acumulador não for zero</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">3</span>
+          <span class="mnemonic">LV</span>
+          <span class="description">Deposita uma constante no acumulador</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">4</span>
+          <span class="mnemonic">ADD</span>
+          <span class="description">Soma</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">5</span>
+          <span class="mnemonic">SUB</span>
+          <span class="description">Subtração</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">6</span>
+          <span class="mnemonic">MUL</span>
+          <span class="description">Multiplicação</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">7</span>
+          <span class="mnemonic">DIV</span>
+          <span class="description">Divisão</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">8</span>
+          <span class="mnemonic">LOAD</span>
+          <span class="description">Carrega da memória no acumulador</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">9</span>
+          <span class="mnemonic">STOR</span>
+          <span class="description">Grava do acumulador na memória</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">A</span>
+          <span class="mnemonic">SC</span>
+          <span class="description">Desvio de subprograma (função)</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">B</span>
+          <span class="mnemonic">RS</span>
+          <span class="description">Retorno de subprograma (função)</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">C</span>
+          <span class="mnemonic">END</span>
+          <span class="description">Fim de programa</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">D</span>
+          <span class="mnemonic">IN</span>
+          <span class="description">Entrada</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">E</span>
+          <span class="mnemonic">OUT</span>
+          <span class="description">Saída</span>
+        </div>
+        <div class="line">
+          <span class="assembly-operation">F</span>
+          <span class="mnemonic">NOP</span>
+          <span class="description">Ciclo de processamento nulo</span>
+        </div>
+      </div>
+      <div id="dec-to-hex" class="coverter box">
+        <div class="coverter-title">Dec to Hex</div>
+        <input type="text" onblur="handelDecToHex(parseInt(this.value))">
+        <div id="dec-to-hex-res" class="conversion-ans"></div>
+      </div>
+      <div id="hex-to-dec" class="coverter box">
+        <div class="coverter-title">Hex to Dec</div>
+        <input type="text" onblur="handelHexToDec(this.value)">
+        <div id="hex-to-dec-res" class="conversion-ans"></div>
+      </div>
+    </div>
+  </div>
+  <script src="./js/setUp.js"></script>
+  <script src="./js/runProgram.js"></script>
+  <script src="./js/instructions.js"></script>
+  <script src="./js/levels.js"></script>
+  <script src="./js/typewriter.js"></script>
+  <script src="./js/modes.js"></script>
+  <script src="./js/conversions.js"></script>
+</body>
+
+</html>
