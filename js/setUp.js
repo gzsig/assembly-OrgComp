@@ -2,7 +2,7 @@ window.onload = () => {
   createSlots();
   registersSetup();
   learningRegisterSetup();
-  typeWriter("Click play to start game or just start coding :)");
+  typeWriter("Check out an example just start coding :)");
 };
 
 function createSlots() {

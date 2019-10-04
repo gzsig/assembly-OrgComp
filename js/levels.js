@@ -15,9 +15,9 @@ function levelOne() {
 
 }
 
-// save one number in 0x000 and one number in 0x002, add both numbers
+
 function levelTwo() {
-  typeWriter("typingIdtypingIdtypingIdtypingIdtypingIdtypingIdtypingIdtypingIdtypingIdtypingIdtypingIdtypingIdtypingIdtypingIdtypingIdtypingIdtypingId")
+  typeWriter("Example program: at the end of runtime the acumulator should have the answer of the factorial of the value in 0x02A (!0x02A)")
   document.getElementById("000").value = "LOAD 02A";
   document.getElementById("num000").innerHTML = "802A";
   document.getElementById("002").value = "STOR 02C";
